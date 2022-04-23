@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import '../../../data/moduls/surah_detail.dart' as detail;
 import '../controllers/detail_surah_controller.dart';
 
 class DetailSurahView extends GetView<DetailSurahController> {
@@ -44,7 +45,10 @@ class DetailSurahView extends GetView<DetailSurahController> {
             height: 20,
           ),
           Expanded(
-            child: FutureBuilder(builder: (context, snapshot) {
+            child: 
+            FutureBuilder<detail.SurahDetail>(
+              future: controller.getDetailSurah(surah.number.toString()),
+              builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
                   child: CircularProgressIndicator(),
