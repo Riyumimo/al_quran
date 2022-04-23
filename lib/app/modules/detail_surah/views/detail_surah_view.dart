@@ -10,7 +10,6 @@ class DetailSurahView extends GetView<DetailSurahController> {
   Surah surah = Get.arguments;
   @override
   Widget build(BuildContext context) {
-    print(surah.number);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -44,63 +43,89 @@ class DetailSurahView extends GetView<DetailSurahController> {
           SizedBox(
             height: 20,
           ),
-          Expanded(
-            child: 
-            FutureBuilder<detail.SurahDetail>(
+          FutureBuilder<detail.SurahDetail>(
               future: controller.getDetailSurah(surah.number.toString()),
               builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (!snapshot.hasData) {
-                return Center(
-                  child: Text("Tidak Ada Data"),
-                );
-              }
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: surah.numberOfVerses ?? 0,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      Card(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 30),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              CircleAvatar(
-                                child: Text("${index + 1}"),
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: Icon(Icons.bookmark_add_outlined),
-                                  ),
-                                  IconButton(
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: Text("Tidak Ada Data"),
+                  );
+                }
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: snapshot.data?.verses?.length ?? 0,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    if (snapshot.data?.verses?.length == 0) {
+                      return SizedBox();
+                    }
+                    detail.Verse ayat = snapshot.data!.verses![index];
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Card(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10, horizontal: 30),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                CircleAvatar(
+                                  child: Text("${index + 1}"),
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    IconButton(
                                       onPressed: () {},
-                                      icon: Icon(Icons.play_arrow))
-                                ],
-                              )
-                            ],
+                                      icon: Icon(Icons.bookmark_add_outlined),
+                                    ),
+                                    IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(Icons.play_arrow))
+                                  ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Text('Ayat..Ayat..'),
-                      SizedBox(
-                        height: 30,
-                      )
-                    ],
-                  );
-                },
-              );
-            }),
-          ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          '${ayat!.text!.arab}',
+                          textAlign: TextAlign.end,
+                          style: TextStyle(fontSize: 25),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          '${ayat!.text!.transliteration!.en}',
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                              fontSize: 16, fontStyle: FontStyle.italic),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text(
+                          '${ayat!.translation!.id}',
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        SizedBox(
+                          height: 50,
+                        )
+                      ],
+                    );
+                  },
+                );
+              }),
         ],
       ),
     );
