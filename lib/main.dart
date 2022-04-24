@@ -8,7 +8,7 @@ void main() {
   runApp(
     GetMaterialApp(
       title: "Application",
-      initialRoute: Routes.HOME,
+      initialRoute: Routes.INTRODUCTION,
       getPages: AppPages.routes,
     ),
   );

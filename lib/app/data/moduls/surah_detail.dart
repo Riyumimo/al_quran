@@ -40,7 +40,7 @@ class SurahDetail {
         revelation:json["revelation"] == null? null: Revelation.fromJson(json["revelation"]),
         tafsir:json["tafsir"] == null? null: DataTafsir.fromJson(json["tafsir"]),
         preBismillah: json["preBismillah"]== null ? null :PreBismillah.fromJson(json["preBismillah"] ),
-        verses: json["verses"]==null?[]: List<Verse>.from(json["verses"].map((x) => Verse.fromJson(x))),
+        verses: json["verses"]==null?null: List<Verse>.from(json["verses"].map((x) => Verse.fromJson(x))),
     );
 
 

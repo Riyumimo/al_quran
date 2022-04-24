@@ -97,7 +97,7 @@ class DetailSurahView extends GetView<DetailSurahController> {
                           height: 20,
                         ),
                         Text(
-                          '${ayat!.text!.arab}',
+                          '${ayat.text!.arab}',
                           textAlign: TextAlign.end,
                           style: TextStyle(fontSize: 25),
                         ),
@@ -105,7 +105,7 @@ class DetailSurahView extends GetView<DetailSurahController> {
                           height: 20,
                         ),
                         Text(
-                          '${ayat!.text!.transliteration!.en}',
+                          '${ayat.text!.transliteration!.en}',
                           textAlign: TextAlign.end,
                           style: TextStyle(
                               fontSize: 16, fontStyle: FontStyle.italic),
@@ -114,7 +114,7 @@ class DetailSurahView extends GetView<DetailSurahController> {
                           height: 20,
                         ),
                         Text(
-                          '${ayat!.translation!.id}',
+                          '${ayat.translation?.id}',
                           textAlign: TextAlign.justify,
                           style: TextStyle(fontSize: 16),
                         ),
