@@ -1,3 +1,4 @@
+import 'package:al_quran/app/contans/color.dart';
 import 'package:al_quran/app/data/moduls/surah.dart';
 import 'package:flutter/material.dart';
 
@@ -26,15 +27,24 @@ class DetailSurahView extends GetView<DetailSurahController> {
                 children: [
                   Text(
                     "${surah.name!.transliteration!.id?.toUpperCase() ?? 'Error...'}",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Get.isDarkMode ? appPurpleDark : appPurpleDark),
                   ),
                   Text(
-                      "${surah.name!.translation!.id?.toUpperCase() ?? 'Error...'}",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                    "${surah.name!.translation!.id?.toUpperCase() ?? 'Error...'}",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Get.isDarkMode ? appPurpleDark : appPurpleDark),
+                  ),
                   Text(
                     " Ayat ${surah.numberOfVerses ?? 'Error'} | ${surah.revelation?.id ?? 'Error..'}",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Get.isDarkMode ? appPurpleDark : appPurpleDark),
                   )
                 ],
               ),
@@ -75,18 +85,38 @@ class DetailSurahView extends GetView<DetailSurahController> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                CircleAvatar(
-                                  child: Text("${index + 1}"),
+                                Container(
+                                  child: Container(
+                                    height: 35,
+                                    width: 35,
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: AssetImage(
+                                                'assets/images/octagon.png'))),
+                                    child: Center(
+                                        child: Text(
+                                      "${index + 1}",
+                                      style: TextStyle(color: appPurpleDark),
+                                    )),
+                                  ),
                                 ),
                                 Row(
                                   children: <Widget>[
                                     IconButton(
                                       onPressed: () {},
-                                      icon: Icon(Icons.bookmark_add_outlined),
+                                      icon: Icon(
+                                        Icons.bookmark_add_outlined,
+                                        color: Get.isDarkMode
+                                            ? appPurpleDark
+                                            : appPurpleDark,
+                                      ),
                                     ),
                                     IconButton(
                                         onPressed: () {},
-                                        icon: Icon(Icons.play_arrow))
+                                        icon: Icon(Icons.play_arrow,
+                                            color: Get.isDarkMode
+                                                ? appPurpleDark
+                                                : appPurpleDark))
                                   ],
                                 )
                               ],

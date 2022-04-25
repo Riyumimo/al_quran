@@ -4,7 +4,7 @@ import 'package:al_quran/app/data/moduls/surah.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
+RxBool isDark = false.obs;
 
   final count = 0.obs;
   @override
