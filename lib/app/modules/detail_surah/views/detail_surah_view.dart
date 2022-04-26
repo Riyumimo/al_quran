@@ -20,33 +20,65 @@ class DetailSurahView extends GetView<DetailSurahController> {
       body: ListView(
         padding: EdgeInsets.all(20),
         children: [
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Text(
-                    "${surah.name!.transliteration!.id?.toUpperCase() ?? 'Error...'}",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Get.isDarkMode ? appPurpleDark : appPurpleDark),
+          Container(
+             decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(18),
+                  gradient: LinearGradient(colors: [
+                    Get.isDarkMode?appPurple: appPurpleDark ,
+                    appPurpleLight1.withOpacity(0.5)
+                  ]),
+                ),
+            child: Material(
+                borderRadius: BorderRadius.circular(18),
+                  color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(18),
+                onTap:(){
+                  Get.defaultDialog(
+                    onConfirm: () => Get.back(),
+                    title: "Tafsir",
+                    titleStyle: TextStyle(
+                      fontWeight:FontWeight.bold
+                    ),
+                    content: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Container(
+                        child: Text('${surah.tafsir?.id??'Tidak Ada Tafsir'}',
+                        textAlign: TextAlign.justify),
+                      ),
+                    )
+                  );
+                },
+                child: Container(
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        Text(
+                          "${surah.name!.transliteration!.id?.toUpperCase() ?? 'Error...'}",
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: appWhite ),
+                        ),
+                        Text(
+                          "${surah.name!.translation!.id?.toUpperCase() ?? 'Error...'}",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color:  appWhite ),
+                        ),
+                        Text(
+                          " Ayat ${surah.numberOfVerses ?? 'Error'} | ${surah.revelation?.id ?? 'Error..'}",
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: appWhite ),
+                        )
+                      ],
+                    ),
                   ),
-                  Text(
-                    "${surah.name!.translation!.id?.toUpperCase() ?? 'Error...'}",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Get.isDarkMode ? appPurpleDark : appPurpleDark),
-                  ),
-                  Text(
-                    " Ayat ${surah.numberOfVerses ?? 'Error'} | ${surah.revelation?.id ?? 'Error..'}",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Get.isDarkMode ? appPurpleDark : appPurpleDark),
-                  )
-                ],
+                ),
               ),
             ),
           ),
@@ -78,10 +110,14 @@ class DetailSurahView extends GetView<DetailSurahController> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Card(
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: appPurpleLight2.withOpacity(0.30)
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 30),
+                                vertical: 10, horizontal: 20),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
@@ -107,7 +143,7 @@ class DetailSurahView extends GetView<DetailSurahController> {
                                       icon: Icon(
                                         Icons.bookmark_add_outlined,
                                         color: Get.isDarkMode
-                                            ? appPurpleDark
+                                            ? appWhite
                                             : appPurpleDark,
                                       ),
                                     ),
@@ -115,7 +151,7 @@ class DetailSurahView extends GetView<DetailSurahController> {
                                         onPressed: () {},
                                         icon: Icon(Icons.play_arrow,
                                             color: Get.isDarkMode
-                                                ? appPurpleDark
+                                                ? appWhite
                                                 : appPurpleDark))
                                   ],
                                 )

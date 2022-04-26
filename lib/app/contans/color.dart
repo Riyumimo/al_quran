@@ -10,19 +10,21 @@ const appOrange = Color(0xFFE6704A);
 ThemeData themeLight = ThemeData(
     brightness: Brightness.light,
     floatingActionButtonTheme:
-        FloatingActionButtonThemeData(backgroundColor: appPurpleDark
+        const FloatingActionButtonThemeData(backgroundColor: appPurpleDark
         ),
+        // ignore: prefer_const_constructors
         tabBarTheme: TabBarTheme(
           labelColor: appPurple,
 
         ),
     primaryColor: appPurple,
     scaffoldBackgroundColor: Colors.white,
+    // ignore: prefer_const_constructors
     appBarTheme: AppBarTheme(
       elevation: 0,
       backgroundColor: appPurple,
     ),
-    textTheme: TextTheme(
+    textTheme: const TextTheme(
         bodyText1: TextStyle(color: appPurpleDark),
         bodyText2: TextStyle(color: appPurpleDark)));
 
@@ -30,21 +32,21 @@ ThemeData themeDark = ThemeData(
 
     brightness: Brightness.dark,
     floatingActionButtonTheme:
-        FloatingActionButtonThemeData(backgroundColor: appWhite
+        const FloatingActionButtonThemeData(backgroundColor: appWhite
         ),
-        tabBarTheme: TabBarTheme(
+        tabBarTheme: const TabBarTheme(
           labelColor: appWhite,
 
         ),
-        cardTheme: CardTheme(
+        cardTheme: const CardTheme(
           color: appWhite
         ),
     primaryColor: appPurpleLight2,
     scaffoldBackgroundColor: appPurpleDark,
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       elevation: 0,
       backgroundColor: appPurpleDark,
     ),
-    textTheme: TextTheme(
+    textTheme: const TextTheme(
         bodyText1: TextStyle(color: appWhite),
         bodyText2: TextStyle(color: appWhite)));

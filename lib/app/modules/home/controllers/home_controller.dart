@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:al_quran/app/data/moduls/surah.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+
+import '../../../data/moduls/juz.dart';
 class HomeController extends GetxController {
 RxBool isDark = false.obs;
 
@@ -37,5 +39,16 @@ RxBool isDark = false.obs;
     }
     
 
+  }
+  Future<List<Juz>> getAllJuz()async {
+    List<Juz>allJuz = [];
+    for (var i = 1; i <=30; i++) {  
+    final res = await  http.get(Uri.parse("https://api.quran.sutanlab.id/juz/${i}"));
+    Map<String,dynamic> data = (jsonDecode(res.body) as Map<String,dynamic>)["data"];
+    Juz juz = Juz.fromJson(data);
+      allJuz.add(juz);
+    }
+  
+  return allJuz;
   }
 }

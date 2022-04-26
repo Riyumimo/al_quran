@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
+import '../../../data/moduls/juz.dart' as juz;
 import '../../../data/moduls/surah.dart';
 import '../controllers/home_controller.dart';
 
@@ -36,10 +37,8 @@ class HomeView extends GetView<HomeController> {
                 margin: EdgeInsets.symmetric(vertical: 20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(18),
-                  gradient: LinearGradient(colors: [
-                    appPurpleDark ,
-                    appPurpleLight1
-                  ]),
+                  gradient:
+                      LinearGradient(colors: [appPurpleDark, appPurpleLight1]),
                 ),
                 child: Material(
                   borderRadius: BorderRadius.circular(18),
@@ -109,7 +108,8 @@ class HomeView extends GetView<HomeController> {
                 ),
               ),
               Obx(() => TabBar(
-                    indicatorColor: controller.isDark.isFalse ? appWhite : appPurpleDark,
+                    indicatorColor:
+                        controller.isDark.isFalse ? appWhite : appPurpleDark,
                     unselectedLabelColor: Colors.grey,
                     tabs: [
                       Tab(
@@ -129,26 +129,8 @@ class HomeView extends GetView<HomeController> {
                     surahWidget(
                       controller: controller,
                     ),
-                    ListView.builder(
-                      itemCount: 30,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ListTile(
-                          leading: Container(
-                            height: 35,
-                            width: 35,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: AssetImage(
-                                        'assets/images/octagon.png'))),
-                            child: Center(
-                                child: Text(
-                              "${index + 1}",
-                              style: TextStyle(color: appPurpleDark),
-                            )),
-                          ),
-                          title: Text("Juz ${index + 1}"),
-                        );
-                      },
+                    JuzWidget(
+                      controller: controller,
                     ),
                     Text("page 3"),
                   ],
@@ -171,6 +153,67 @@ class HomeView extends GetView<HomeController> {
             )),
       ),
     );
+  }
+}
+
+class JuzWidget extends StatelessWidget {
+  const JuzWidget({
+    required this.controller,
+    Key? key,
+  }) : super(key: key);
+  final HomeController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<juz.Juz>>(
+        future: controller.getAllJuz(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (!snapshot.hasData) {
+            return Center(
+              child: Text("Tidak Ada Data"),
+            );
+          }
+          return ListView.builder(
+            itemCount: snapshot.data!.length,
+            itemBuilder: ( context, index) {
+              juz.Juz detailJuz = snapshot.data![index];
+              return ListTile(
+                onTap: (){},
+                leading: Container(
+                  height: 35,
+                  width: 35,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage('assets/images/octagon.png'))),
+                  child: Center(
+                      child: Text(
+                    "${index + 1}",
+                    style: TextStyle(color: appPurpleDark),
+                  )),
+                ),
+                title: Text("Juz ${index + 1}"),
+                isThreeLine: true,
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      "Mulai Dari ${detailJuz.start}",
+                    ),
+                    Text(
+                      "Sampai ${detailJuz.end}",
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        });
   }
 }
 
@@ -197,8 +240,6 @@ class surahWidget extends StatelessWidget {
               child: Text("Tidak Ada Data"),
             );
           }
-
-          print(snapshot.data);
 
           return Padding(
             padding: const EdgeInsets.all(8.0),

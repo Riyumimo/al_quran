@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:al_quran/app/data/moduls/ayat_model.dart';
+import 'package:al_quran/app/data/moduls/juz.dart';
 import 'package:al_quran/app/data/moduls/surah.dart';
 import 'package:al_quran/app/data/moduls/surah_detail.dart';
 import 'package:http/http.dart' as http;
@@ -58,23 +59,30 @@ void main() async {
 // print(annas.verses![0].text!.arab);
 
 
-var res = await http.get(Uri.parse('https://api.quran.sutanlab.id/surah/1/1'));
-Map<String,dynamic> data = jsonDecode(res.body)["data"];
-Map<String,dynamic> dataToModel = {
-  "number":data['number'],
-  "meta":data['meta'],
-  "text":data['text'],
-  "translation":data['translation'],
-  "audio":data['audio'],
-  "tafsir":data['tafsir']
-} ;
+// var res = await http.get(Uri.parse('https://api.quran.sutanlab.id/surah/1/1'));
+// Map<String,dynamic> data = jsonDecode(res.body)["data"];
+// Map<String,dynamic> dataToModel = {
+//   "number":data['number'],
+//   "meta":data['meta'],
+//   "text":data['text'],
+//   "translation":data['translation'],
+//   "audio":data['audio'],
+//   "tafsir":data['tafsir']
+// } ;
 
 
 
-Ayat ayat = Ayat.fromJson(dataToModel);
+// Ayat ayat = Ayat.fromJson(dataToModel);
 
 
-print(ayat.meta!.page);
+// print(ayat.meta!.page);
+
+var res = await http.get(Uri.parse('https://api.quran.sutanlab.id/juz/1'));
+Map<String,dynamic>data = jsonDecode(res.body)["data"];
+
+Juz juz = Juz.fromJson(data);
+
+print(juz.verses);
 
 }
 

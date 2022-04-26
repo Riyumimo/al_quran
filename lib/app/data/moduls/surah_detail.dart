@@ -2,8 +2,8 @@
 //
 //     final surahDetail = surahDetailFromJson(jsonString);
 
-//API ENDPOINT : https://api.quran.sutanlab.id/surah/1
-//Get Detail detail surah dalam alquran
+//API ENDPOINT : 
+//Get Detail detail surah dalam alquran https://api.quran.sutanlab.id/surah/1
 
 import 'dart:convert';
 
