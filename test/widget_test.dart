@@ -1,89 +1,66 @@
 import 'dart:convert';
-import 'package:al_quran/app/data/moduls/ayat_model.dart';
-import 'package:al_quran/app/data/moduls/juz.dart';
-import 'package:al_quran/app/data/moduls/surah.dart';
+
 import 'package:al_quran/app/data/moduls/surah_detail.dart';
 import 'package:http/http.dart' as http;
 
 void main() async {
+  int juz =1 ;
+  List<Map<String,dynamic>> penampungayat =[];
+  List <Map<String,dynamic>> allJuz = [];
+  for (var i = 1; i < 114; i++) {
+    var res =
+        await http.get(Uri.parse("https://api.quran.sutanlab.id/surah/$i"));
+       Map<String,dynamic> rawData =  json.decode(res.body)['data'];
+       SurahDetail data = SurahDetail.fromJson(rawData);
 
-// Future<SurahDetail> getDetailSurah(String surah )async {
-//     // ignore: unnecessary_brace_in_string_interps
-//     final res = await  http.get(Uri.parse("https://api.quran.sutanlab.id/surah/${surah}"));
+      if (data.verses != null) {
+        data.verses?.forEach((ayat) {
+          /* ex: surah alfatihah => 7 ayat */
+          if (ayat.meta?.juz == juz) {
+            penampungayat.add({
+              'nama':data.name?.transliteration?.id ??"",
+              "ayat"  :ayat
+            });
+          }else{
+            //jika jumlah ayat bertambah
+            print('================');
+            print('Berhasil Memasukkan Juz $juz');
+            print('START');
+            print((penampungayat[0]["ayat"]as Verse).number!.inSurah);
+            print('END');
+            print((penampungayat[penampungayat.length -1]["ayat"] as Verse).number?.inSurah);
 
-//     Map<String,dynamic> data = (jsonDecode(res.body) as Map<String,dynamic>)["data"];
-
-//       print(data);
-  
-//       return SurahDetail.fromJson(data);
-  
-    
-
-//   }
-//    await getDetailSurah(1.toString());
-
-//   final res = await  http.get(Uri.parse("https://api.quran.sutanlab.id/surah"));
-//   List data = (jsonDecode(res.body) as Map<String,dynamic>)["data"];
-
-//   //1-114
-//   // print(data[113]);
-
-// //Data Api List<dynamic>(Raw data ) menjadi model (yang sudah di buat)
-
-// Surah surahAnnas = Surah.fromJson(data[113]); 
-// print(surahAnnas.name);
-
-// //Mencoba Masuk Ke nested  Model (Model dalam Model)
-
-// print(surahAnnas.name!.transliteration!.id);
-// print("========");
-
-// //Surah Detail 
-
-
-// final resAnnas = await http.get(Uri.parse("https://api.quran.sutanlab.id/surah/${surahAnnas.number}"));
-
-// // print(resAnnas.body);
-
-// Map<String,dynamic> dataDetail = (jsonDecode(resAnnas.body) as Map<String,dynamic>)["data"]; 
-
-// // print(dataDetail["code"]);
-
-// // print(dataDetail);
+            allJuz.add({
+              "juz":juz,
+              "start":penampungayat[0],
+              "end": penampungayat[penampungayat.length-1],
+              "verses": penampungayat
+            });
+            juz++;
+            penampungayat.clear();
+            penampungayat.add({
+              "surah":data.name?.transliteration?.id??"",
+              "ayat":ayat,
+            });
+          }
 
 
-// //Memasukkan data raw ke dalam ke SurahDetail 
-// SurahDetail annas = SurahDetail.fromJson(dataDetail); 
+         });
+        
+      }
 
-// print(annas.tafsir!.id);
-// print(annas.verses![0].text!.arab);
+  }
+    print('================');
+            print('Berhasil Memasukkan Juz $juz');
+            print('START');
+            print((penampungayat[0]["ayat"]as Verse).text?.arab);
+            print('END');
+            print((penampungayat[penampungayat.length -1]["ayat"] as Verse).number?.inSurah);
 
-
-// var res = await http.get(Uri.parse('https://api.quran.sutanlab.id/surah/1/1'));
-// Map<String,dynamic> data = jsonDecode(res.body)["data"];
-// Map<String,dynamic> dataToModel = {
-//   "number":data['number'],
-//   "meta":data['meta'],
-//   "text":data['text'],
-//   "translation":data['translation'],
-//   "audio":data['audio'],
-//   "tafsir":data['tafsir']
-// } ;
-
-
-
-// Ayat ayat = Ayat.fromJson(dataToModel);
-
-
-// print(ayat.meta!.page);
-
-var res = await http.get(Uri.parse('https://api.quran.sutanlab.id/juz/1'));
-Map<String,dynamic>data = jsonDecode(res.body)["data"];
-
-Juz juz = Juz.fromJson(data);
-
-print(juz.verses);
-
+            allJuz.add({
+              "juz":juz,
+              "start":penampungayat[0],
+              "end": penampungayat[penampungayat.length-1],
+              "verses": penampungayat
+            });
 }
-
-
