@@ -9,6 +9,9 @@ import '../controllers/home_controller.dart';
 class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
+    if (Get.isDarkMode) {
+      controller.isDark.value = true;
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('Quran App'),
@@ -127,62 +130,7 @@ class HomeView extends GetView<HomeController> {
                     surahWidget(
                       controller: controller,
                     ),
-                    FutureBuilder<List<Map<String, dynamic>>>(
-                      future: controller.getAllJuz(),
-                      builder: (context, snapshot) {
-                           if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      if (!snapshot.hasData) {
-                        return Center(
-                          child: Text("Tidak Ada Data"),
-                        );
-                      }
-                        return ListView.builder(
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            Map<String, dynamic> dataMapPerJuz =
-                                snapshot.data![index];
-                            return ListTile(
-                              onTap: () {
-                                Get.toNamed(Routes.DETAIL_JUZ,
-                                    arguments: dataMapPerJuz);
-                              },
-                              leading: Container(
-                                height: 35,
-                                width: 35,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: AssetImage(
-                                            'assets/images/octagon.png'))),
-                                child: Center(
-                                    child: Text(
-                                  "${index + 1}",
-                                  style: TextStyle(color: appPurpleDark),
-                                )),
-                              ),
-                              title: Text("Juz ${index + 1}"),
-                              isThreeLine: true,
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  Text(
-                                  "Mulai Dari ${dataMapPerJuz['start']['surah']} ayat ${(dataMapPerJuz['start']['ayat'] as surah.Verse).number!.inSurah}",
-                                  ),
-                                  Text(
-                                    "Sampai ${dataMapPerJuz['end']['surah']} ayat ${(dataMapPerJuz['end']['ayat'] as surah.Verse).number!.inSurah}",
-                                  ),
-                                ],
-                              ),
-                            );
-                            ;
-                          },
-                        );
-                      },
-                    ),
+                    juzWidget(controller: controller),
                     Text("page 3"),
                   ],
                 ),
@@ -193,97 +141,89 @@ class HomeView extends GetView<HomeController> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          controller.isDark.toggle();
-          Get.isDarkMode
-              ? Get.changeTheme(themeLight)
-              : Get.changeTheme(themeDark);
+         controller.changeTheme();
+         controller.isDark.toggle();
         },
         child: Obx(() => Icon(
               Icons.color_lens,
-              color: controller.isDark.isFalse ? appPurpleDark : appWhite,
+              color: controller.isDark.isTrue ? appPurpleDark : appWhite,
             )),
       ),
     );
   }
 }
 
-// class JuzWidget extends StatelessWidget {
-//   const JuzWidget({
-//     required this.controller,
-//     Key? key,
-//   }) : super(key: key);
-//   final HomeController controller;
+class juzWidget extends StatelessWidget {
+  const juzWidget({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return FutureBuilder<List<juz.Juz>>(
-//         future: controller.getAllJuz(),
-//         builder: (context, snapshot) {
-//          
-//           return ListView.builder(
-//             itemCount: snapshot.data!.length,
-//             itemBuilder: (context, index) {
-//               //Contoh pertama adalah juz 1 = index ke 0
-//               juz.Juz detailJuz = snapshot.data![index];
-//               String nameStart = detailJuz.start?.split(" - ").first ?? "";
-//               String nameEnd = detailJuz.end?.split(" - ").first ?? "";
-//               List<Surah> rawAllSurahInJuz = [];
-//               List<Surah> allSurahInJuz = [];
+  final HomeController controller;
 
-//               for (Surah item in controller.allSurah) {
-//                 rawAllSurahInJuz.add(item);
-//                 if (item.name!.transliteration!.id == nameEnd) {
-//                   break;
-//                 }
-//               }
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<Map<String, dynamic>>>(
+      future: controller.getAllJuz(),
+      builder: (context, snapshot) {
+           if (snapshot.connectionState == ConnectionState.waiting) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+      if (!snapshot.hasData) {
+        return Center(
+          child: Text("Tidak Ada Data"),
+        );
+      }
+        return ListView.builder(
+          itemCount: snapshot.data!.length,
+          itemBuilder: (BuildContext context, int index) {
+            Map<String, dynamic> dataMapPerJuz =
+                snapshot.data![index];
+                print(dataMapPerJuz);
+            return ListTile(
+              onTap: () {
+                Get.toNamed(Routes.DETAIL_JUZ,
+                    arguments: dataMapPerJuz);
+              },
+              leading: Container(
+                height: 35,
+                width: 35,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage(
+                            'assets/images/octagon.png'))),
+                child: Center(
+                    child: Text(
+                  "${index + 1}",
+                  style: TextStyle(color: appPurpleDark),
+                )),
+              ),
+              title: Text("Juz ${index + 1}"),
+              isThreeLine: true,
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(
+                  "Mulai Dari ${(dataMapPerJuz['start']['surah'] as surah.SurahDetail).name?.transliteration?.id} ayat ${(dataMapPerJuz['start']['ayat'] as surah.Verse).number!.inSurah}",
+                  ),
+                  Text(
+                    "Sampai ${(dataMapPerJuz['end']['surah'] as surah.SurahDetail).name?.transliteration?.id} ayat ${(dataMapPerJuz['end']['ayat'] as surah.Verse).number!.inSurah}",
+                  ),
+                ],
+              ),
+            );
+            
+          },
+        );
+      },
+    );
+  }
+}
 
-//               for (Surah item in rawAllSurahInJuz.reversed.toList()) {
-//                 allSurahInJuz.add(item);
-//                 if (item.name!.transliteration!.id == nameStart) {
-//                   break;
-//                 }
-//               }
 
-//               detailJuz.end;
-//               return ListTile(
-//                 onTap: () {
-//                   Get.toNamed(Routes.DETAIL_JUZ, arguments: {
-//                     "juz": detailJuz,
-//                     "surah": allSurahInJuz.reversed.toList(),
-//                   });
-//                 },
-//                 leading: Container(
-//                   height: 35,
-//                   width: 35,
-//                   decoration: BoxDecoration(
-//                       image: DecorationImage(
-//                           image: AssetImage('assets/images/octagon.png'))),
-//                   child: Center(
-//                       child: Text(
-//                     "${index + 1}",
-//                     style: TextStyle(color: appPurpleDark),
-//                   )),
-//                 ),
-//                 title: Text("Juz ${index + 1}"),
-//                 isThreeLine: true,
-//                 subtitle: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   mainAxisSize: MainAxisSize.min,
-//                   children: <Widget>[
-//                     Text(
-//                       "Mulai Dari ${detailJuz.start}",
-//                     ),
-//                     Text(
-//                       "Sampai ${detailJuz.end}",
-//                     ),
-//                   ],
-//                 ),
-//               );
-//             },
-//           );
-//         });
-//   }
-// }
 
 class surahWidget extends StatelessWidget {
   const surahWidget({

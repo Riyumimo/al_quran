@@ -10,7 +10,7 @@ const appOrange = Color(0xFFE6704A);
 ThemeData themeLight = ThemeData(
     brightness: Brightness.light,
     floatingActionButtonTheme:
-        const FloatingActionButtonThemeData(backgroundColor: appPurpleDark
+         FloatingActionButtonThemeData(backgroundColor: appPurpleDark
         ),
         // ignore: prefer_const_constructors
         tabBarTheme: TabBarTheme(
@@ -32,7 +32,7 @@ ThemeData themeDark = ThemeData(
 
     brightness: Brightness.dark,
     floatingActionButtonTheme:
-        const FloatingActionButtonThemeData(backgroundColor: appWhite
+         FloatingActionButtonThemeData(backgroundColor: appWhite
         ),
         tabBarTheme: const TabBarTheme(
           labelColor: appWhite,
