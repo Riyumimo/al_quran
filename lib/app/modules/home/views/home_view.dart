@@ -14,13 +14,13 @@ class HomeView extends GetView<HomeController> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: Text('Quran App'),
+        title: const Text('Quran App'),
         actions: [
           IconButton(
               onPressed: () {
                 Get.toNamed(Routes.SEARCH);
               },
-              icon: Icon(Icons.search))
+              icon: const Icon(Icons.search))
         ],
       ),
       body: DefaultTabController(
@@ -35,11 +35,11 @@ class HomeView extends GetView<HomeController> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               Container(
-                margin: EdgeInsets.symmetric(vertical: 20),
+                margin: const EdgeInsets.symmetric(vertical: 20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(18),
                   gradient:
-                      LinearGradient(colors: [appPurpleDark, appPurpleLight1]),
+                      const LinearGradient(colors: [appPurpleDark, appPurpleLight1]),
                 ),
                 child: Material(
                   borderRadius: BorderRadius.circular(18),
@@ -49,7 +49,7 @@ class HomeView extends GetView<HomeController> {
                     onTap: () {
                       Get.toNamed(Routes.LAST_READ);
                     },
-                    child: Container(
+                    child: SizedBox(
                       width: Get.width,
                       child: Stack(
                         children: [
@@ -59,7 +59,7 @@ class HomeView extends GetView<HomeController> {
                             top: 20,
                             child: Opacity(
                               opacity: 0.7,
-                              child: Container(
+                              child: SizedBox(
                                   height: 120,
                                   width: 120,
                                   child: Image.asset(
@@ -92,10 +92,10 @@ class HomeView extends GetView<HomeController> {
                                 const SizedBox(
                                   height: 20,
                                 ),
-                                Text('Al-fatihah',
+                                const Text('Al-fatihah',
                                     style: TextStyle(
                                         color: appWhite, fontSize: 20)),
-                                Text('Juz 1 Ayat 5',
+                                const Text('Juz 1 Ayat 5',
                                     style: TextStyle(
                                       color: appWhite,
                                     ))
@@ -113,13 +113,13 @@ class HomeView extends GetView<HomeController> {
                         controller.isDark.isFalse ? appWhite : appPurpleDark,
                     unselectedLabelColor: Colors.grey,
                     tabs: [
-                      Tab(
+                       const Tab(
                         text: 'Surah',
                       ),
-                      Tab(
+                      const Tab(
                         text: 'Juz',
                       ),
-                      Tab(
+                      const Tab(
                         text: 'BookMark',
                       ),
                     ],
@@ -131,7 +131,7 @@ class HomeView extends GetView<HomeController> {
                       controller: controller,
                     ),
                     juzWidget(controller: controller),
-                    Text("page 3"),
+                    const Text("page 3"),
                   ],
                 ),
               )
@@ -167,13 +167,13 @@ class juzWidget extends StatelessWidget {
       future: controller.getAllJuz(),
       builder: (context, snapshot) {
            if (snapshot.connectionState == ConnectionState.waiting) {
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       }
       if (!snapshot.hasData) {
-        return Center(
-          child: Text("Tidak Ada Data"),
+        return const Center(
+          child: const Text("Tidak Ada Data"),
         );
       }
         return ListView.builder(
@@ -190,14 +190,14 @@ class juzWidget extends StatelessWidget {
               leading: Container(
                 height: 35,
                 width: 35,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
+                decoration: const BoxDecoration(
+                    image: const DecorationImage(
                         image: AssetImage(
                             'assets/images/octagon.png'))),
                 child: Center(
                     child: Text(
                   "${index + 1}",
-                  style: TextStyle(color: appPurpleDark),
+                  style: const TextStyle(color: appPurpleDark),
                 )),
               ),
               title: Text("Juz ${index + 1}"),
@@ -239,13 +239,13 @@ class surahWidget extends StatelessWidget {
         future: controller.getAllSurah(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(),
+            return const Center(
+              child: const CircularProgressIndicator(),
             );
           }
           if (!snapshot.hasData) {
-            return Center(
-              child: Text("Tidak Ada Data"),
+            return const Center(
+              child: const Text("Tidak Ada Data"),
             );
           }
 
@@ -262,13 +262,13 @@ class surahWidget extends StatelessWidget {
                   leading: Container(
                     height: 35,
                     width: 35,
-                    decoration: BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage('assets/images/octagon.png'))),
+                    decoration: const BoxDecoration(
+                        image: const DecorationImage(
+                            image: const AssetImage('assets/images/octagon.png'))),
                     child: Center(
                         child: Text(
                       "${surah.number}",
-                      style: TextStyle(color: appPurpleDark),
+                      style: const TextStyle(color: appPurpleDark),
                     )),
                   ),
                   title:

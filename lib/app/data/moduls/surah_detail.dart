@@ -21,6 +21,7 @@ class SurahDetail {
         this.tafsir,
         this.preBismillah,
         this.verses,
+       
     });
 
     int? number;
@@ -31,6 +32,7 @@ class SurahDetail {
     DataTafsir? tafsir;
     PreBismillah? preBismillah;
     List<Verse>? verses;
+    
 
     factory SurahDetail.fromJson(Map<String, dynamic> json) => SurahDetail(
         number: json["number"],
@@ -53,6 +55,7 @@ class SurahDetail {
         "tafsir": tafsir?.toJson(),
         "preBismillah": preBismillah?.toJson(),
         "verses": verses == null? null : List<dynamic>.from(verses!.map((x) => x.toJson())),
+        
     };
 }
 
@@ -232,6 +235,7 @@ class Verse {
         this.translation,
         this.audio,
         this.tafsir,
+        this.konsidiAudio = "stop"
     });
 
     Number? number;
@@ -240,6 +244,7 @@ class Verse {
     Translation? translation;
     Audio ?audio;
     VerseTafsir? tafsir;
+    String konsidiAudio;
 
     factory Verse.fromJson(Map<String, dynamic> json) => Verse(
         number: Number.fromJson(json["number"]),
@@ -257,6 +262,7 @@ class Verse {
         "translation": translation?.toJson(),
         "audio": audio?.toJson(),
         "tafsir": tafsir?.toJson(),
+        "kondisiAudio": konsidiAudio
     };
 }
 

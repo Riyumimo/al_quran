@@ -21,33 +21,31 @@ class DetailSurahView extends GetView<DetailSurahController> {
         padding: EdgeInsets.all(20),
         children: [
           Container(
-             decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(18),
-                  gradient: LinearGradient(colors: [
-                    Get.isDarkMode?appPurple: appPurpleDark ,
-                    appPurpleLight1.withOpacity(0.5)
-                  ]),
-                ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(18),
+              gradient: LinearGradient(colors: [
+                Get.isDarkMode ? appPurple : appPurpleDark,
+                appPurpleLight1.withOpacity(0.5)
+              ]),
+            ),
             child: Material(
-                borderRadius: BorderRadius.circular(18),
-                  color: Colors.transparent,
+              borderRadius: BorderRadius.circular(18),
+              color: Colors.transparent,
               child: InkWell(
                 borderRadius: BorderRadius.circular(18),
-                onTap:(){
+                onTap: () {
                   Get.defaultDialog(
-                    onConfirm: () => Get.back(),
-                    title: "Tafsir",
-                    titleStyle: TextStyle(
-                      fontWeight:FontWeight.bold
-                    ),
-                    content: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Container(
-                        child: Text('${surah.tafsir?.id??'Tidak Ada Tafsir'}',
-                        textAlign: TextAlign.justify),
-                      ),
-                    )
-                  );
+                      onConfirm: () => Get.back(),
+                      title: "Tafsir",
+                      titleStyle: TextStyle(fontWeight: FontWeight.bold),
+                      content: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Container(
+                          child: Text(
+                              '${surah.tafsir?.id ?? 'Tidak Ada Tafsir'}',
+                              textAlign: TextAlign.justify),
+                        ),
+                      ));
                 },
                 child: Container(
                   child: Padding(
@@ -59,21 +57,21 @@ class DetailSurahView extends GetView<DetailSurahController> {
                           style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: appWhite ),
+                              color: appWhite),
                         ),
                         Text(
                           "${surah.name!.translation!.id?.toUpperCase() ?? 'Error...'}",
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color:  appWhite ),
+                              color: appWhite),
                         ),
                         Text(
                           " Ayat ${surah.numberOfVerses ?? 'Error'} | ${surah.revelation?.id ?? 'Error..'}",
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: appWhite ),
+                              color: appWhite),
                         )
                       ],
                     ),
@@ -112,9 +110,8 @@ class DetailSurahView extends GetView<DetailSurahController> {
                       children: [
                         Container(
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: appPurpleLight2.withOpacity(0.30)
-                          ),
+                              borderRadius: BorderRadius.circular(10),
+                              color: appPurpleLight2.withOpacity(0.30)),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 20),
@@ -136,24 +133,77 @@ class DetailSurahView extends GetView<DetailSurahController> {
                                     )),
                                   ),
                                 ),
-                                Row(
-                                  children: <Widget>[
-                                    IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        Icons.bookmark_add_outlined,
-                                        color: Get.isDarkMode
-                                            ? appWhite
-                                            : appPurpleDark,
-                                      ),
-                                    ),
-                                    IconButton(
+                                GetBuilder<DetailSurahController>(
+                                  builder: (_controller) => Row(
+                                    children: <Widget>[
+                                      IconButton(
                                         onPressed: () {},
-                                        icon: Icon(Icons.play_arrow,
-                                            color: Get.isDarkMode
-                                                ? appWhite
-                                                : appPurpleDark))
-                                  ],
+                                        icon: Icon(
+                                          Icons.bookmark_add_outlined,
+                                          color: Get.isDarkMode
+                                              ? appWhite
+                                              : appPurpleDark,
+                                        ),
+                                      ),
+
+                                      // kondisi => stop => button Play
+                                      // kondisi => playing => button pause & button stop
+                                      // kondisi => pause => button resume & button stop
+                                      (ayat.konsidiAudio == "stop")
+                                          ? IconButton(
+                                              onPressed: () {
+                                                //play audio
+
+                                                _controller.playAdio(ayat);
+                                              },
+                                              icon: Icon(Icons.play_arrow,
+                                                  color: Get.isDarkMode
+                                                      ? appWhite
+                                                      : appPurpleDark),
+                                            )
+                                          : Row(
+                                              children: <Widget>[
+                                                (ayat.konsidiAudio == "playing")
+                                                    ? IconButton(
+                                                        onPressed: () {
+                                                          _controller
+                                                              .pauseAudio(ayat);
+                                                        },
+                                                        icon: Icon(
+                                                            //icon for pause
+                                                            Icons.pause,
+                                                            color: Get
+                                                                    .isDarkMode
+                                                                ? appWhite
+                                                                : appPurpleDark),
+                                                      )
+                                                    : IconButton(
+                                                        onPressed: () {
+                                                          _controller
+                                                              .resumeAudio(
+                                                                  ayat);
+                                                        },
+                                                        icon: Icon(
+                                                            Icons.play_arrow,
+                                                            color: Get
+                                                                    .isDarkMode
+                                                                ? appWhite
+                                                                : appPurpleDark),
+                                                      ),
+                                                IconButton(
+                                                  // ICON STOP AUDIO
+                                                  onPressed: () {
+                                                    _controller.stopAudio(ayat);
+                                                  },
+                                                  icon: Icon(Icons.stop,
+                                                      color: Get.isDarkMode
+                                                          ? appWhite
+                                                          : appPurpleDark),
+                                                )
+                                              ],
+                                            )
+                                    ],
+                                  ),
                                 )
                               ],
                             ),

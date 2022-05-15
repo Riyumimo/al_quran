@@ -29,6 +29,8 @@ class HomeController extends GetxController {
     }
 
   }
+  
+  
 
   Future<List<Surah>> getAllSurah() async {
     final res =
