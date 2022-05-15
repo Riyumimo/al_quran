@@ -6,6 +6,8 @@ import 'package:lottie/lottie.dart';
 import '../controllers/introduction_controller.dart';
 
 class IntroductionView extends GetView<IntroductionController> {
+  const IntroductionView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +15,7 @@ class IntroductionView extends GetView<IntroductionController> {
 
       body: Center(
         child: Container(
-          margin: EdgeInsets.only(
+          margin: const EdgeInsets.only(
             bottom: 100,
           ),
           child: Column(
@@ -25,34 +27,34 @@ class IntroductionView extends GetView<IntroductionController> {
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 1,),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 50),
+              const SizedBox(height: 1,),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 50),
                 child:
-                    const Text('Sesibuk apakah kamu belum membaca al-quran ?',
+                    Text('Sesibuk apakah kamu belum membaca al-quran ?',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 14,
                         )),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Container(
+                child: SizedBox(
                   height: 300,
                   width: 300,
                   child: Lottie.asset("assets/images/animations.json"),
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               ElevatedButton(onPressed: () => Get.offAllNamed(Routes.HOME),
                child:Text('Get Started',style:TextStyle(color:Get.isDarkMode ?appPurple:appWhite)),
                style: ElevatedButton.styleFrom(
                   primary: Get.isDarkMode?appWhite:appPurple,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                  padding: EdgeInsets.symmetric(horizontal: 50,vertical: 10)
+                  padding: const EdgeInsets.symmetric(horizontal: 50,vertical: 10)
                ),)
             ],
           ),

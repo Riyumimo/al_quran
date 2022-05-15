@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:al_quran/app/contans/color.dart';
 import 'package:al_quran/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,8 @@ import '../../../data/moduls/surah_detail.dart' as surah;
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
+  const HomeView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     if (Get.isDarkMode) {
@@ -112,14 +116,14 @@ class HomeView extends GetView<HomeController> {
                     indicatorColor:
                         controller.isDark.isFalse ? appWhite : appPurpleDark,
                     unselectedLabelColor: Colors.grey,
-                    tabs: [
-                       const Tab(
+                    tabs: const [
+                       Tab(
                         text: 'Surah',
                       ),
-                      const Tab(
+                      Tab(
                         text: 'Juz',
                       ),
-                      const Tab(
+                      Tab(
                         text: 'BookMark',
                       ),
                     ],
@@ -153,6 +157,7 @@ class HomeView extends GetView<HomeController> {
   }
 }
 
+// ignore: camel_case_types
 class juzWidget extends StatelessWidget {
   const juzWidget({
     Key? key,
@@ -173,7 +178,7 @@ class juzWidget extends StatelessWidget {
       }
       if (!snapshot.hasData) {
         return const Center(
-          child: const Text("Tidak Ada Data"),
+          child: Text("Tidak Ada Data"),
         );
       }
         return ListView.builder(
@@ -191,7 +196,7 @@ class juzWidget extends StatelessWidget {
                 height: 35,
                 width: 35,
                 decoration: const BoxDecoration(
-                    image: const DecorationImage(
+                    image: DecorationImage(
                         image: AssetImage(
                             'assets/images/octagon.png'))),
                 child: Center(
@@ -225,6 +230,7 @@ class juzWidget extends StatelessWidget {
 
 
 
+// ignore: camel_case_types
 class surahWidget extends StatelessWidget {
   const surahWidget({
     Key? key,
@@ -240,12 +246,12 @@ class surahWidget extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-              child: const CircularProgressIndicator(),
+              child: CircularProgressIndicator(),
             );
           }
           if (!snapshot.hasData) {
             return const Center(
-              child: const Text("Tidak Ada Data"),
+              child: Text("Tidak Ada Data"),
             );
           }
 
@@ -263,8 +269,8 @@ class surahWidget extends StatelessWidget {
                     height: 35,
                     width: 35,
                     decoration: const BoxDecoration(
-                        image: const DecorationImage(
-                            image: const AssetImage('assets/images/octagon.png'))),
+                        image: DecorationImage(
+                            image: AssetImage('assets/images/octagon.png'))),
                     child: Center(
                         child: Text(
                       "${surah.number}",
@@ -272,10 +278,10 @@ class surahWidget extends StatelessWidget {
                     )),
                   ),
                   title:
-                      Text("${surah.name!.transliteration?.id ?? "Error.."}"),
+                      Text(surah.name!.transliteration?.id ?? "Error.."),
                   subtitle: Text(
                       "${surah.numberOfVerses} Ayat | ${surah.revelation?.id ?? 'Error'}"),
-                  trailing: Text("${surah.name!.short ?? 'Error'}"),
+                  trailing: Text(surah.name!.short ?? 'Error'),
                 );
               },
             ),

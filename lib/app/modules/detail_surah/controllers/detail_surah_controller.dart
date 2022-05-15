@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 
 import 'package:al_quran/app/data/moduls/surah_detail.dart';
@@ -10,7 +12,7 @@ class DetailSurahController extends GetxController {
   Verse? lastVerse;
   Future<SurahDetail> getDetailSurah(String surah) async {
     final res = await http
-        .get(Uri.parse("https://api.quran.sutanlab.id/surah/${surah}"));
+        .get(Uri.parse("https://api.quran.sutanlab.id/surah/$surah"));
     Map<String, dynamic> data =
         (jsonDecode(res.body) as Map<String, dynamic>)["data"];
 
@@ -91,11 +93,9 @@ class DetailSurahController extends GetxController {
   }
 
   void playAdio(Verse ayat) async {  
-    if (ayat?.audio?.primary != null) {
+    if (ayat.audio?.primary != null) {
       try {
-        if(lastVerse == null){
-          lastVerse = ayat;
-        }
+        lastVerse ??= ayat;
         lastVerse!.konsidiAudio = "stop";
         lastVerse = ayat;
         lastVerse!.konsidiAudio = "stop";
@@ -105,7 +105,7 @@ class DetailSurahController extends GetxController {
 
        
         await player.stop();
-        await player.setUrl(ayat!.audio!.primary!);
+        await player.setUrl(ayat.audio!.primary!);
         ayat.konsidiAudio = "playing";
         update();
         await player.play();

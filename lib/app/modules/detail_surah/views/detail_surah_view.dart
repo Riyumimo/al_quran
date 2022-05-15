@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_unnecessary_containers, prefer_is_empty
+
 import 'package:al_quran/app/contans/color.dart';
 import 'package:al_quran/app/data/moduls/surah.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +9,11 @@ import 'package:get/get.dart';
 import '../../../data/moduls/surah_detail.dart' as detail;
 import '../controllers/detail_surah_controller.dart';
 
+// ignore: must_be_immutable
 class DetailSurahView extends GetView<DetailSurahController> {
   Surah surah = Get.arguments;
+
+  DetailSurahView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +23,7 @@ class DetailSurahView extends GetView<DetailSurahController> {
         centerTitle: true,
       ),
       body: ListView(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         children: [
           Container(
             decoration: BoxDecoration(
@@ -37,72 +42,70 @@ class DetailSurahView extends GetView<DetailSurahController> {
                   Get.defaultDialog(
                       onConfirm: () => Get.back(),
                       title: "Tafsir",
-                      titleStyle: TextStyle(fontWeight: FontWeight.bold),
+                      titleStyle: const TextStyle(fontWeight: FontWeight.bold),
                       content: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Container(
                           child: Text(
-                              '${surah.tafsir?.id ?? 'Tidak Ada Tafsir'}',
+                              surah.tafsir?.id ?? 'Tidak Ada Tafsir',
                               textAlign: TextAlign.justify),
                         ),
                       ));
                 },
-                child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        Text(
-                          "${surah.name!.transliteration!.id?.toUpperCase() ?? 'Error...'}",
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: appWhite),
-                        ),
-                        Text(
-                          "${surah.name!.translation!.id?.toUpperCase() ?? 'Error...'}",
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: appWhite),
-                        ),
-                        Text(
-                          " Ayat ${surah.numberOfVerses ?? 'Error'} | ${surah.revelation?.id ?? 'Error..'}",
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: appWhite),
-                        )
-                      ],
-                    ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Text(
+                        surah.name!.transliteration!.id?.toUpperCase() ?? 'Error...',
+                        style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: appWhite),
+                      ),
+                      Text(
+                        surah.name!.translation!.id?.toUpperCase() ?? 'Error...',
+                        style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: appWhite),
+                      ),
+                      Text(
+                        " Ayat ${surah.numberOfVerses ?? 'Error'} | ${surah.revelation?.id ?? 'Error..'}",
+                        style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: appWhite),
+                      )
+                    ],
                   ),
                 ),
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           FutureBuilder<detail.SurahDetail>(
               future: controller.getDetailSurah(surah.number.toString()),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
                 if (!snapshot.hasData) {
-                  return Center(
+                  return const Center(
                     child: Text("Tidak Ada Data"),
                   );
                 }
                 return ListView.builder(
                   shrinkWrap: true,
                   itemCount: snapshot.data?.verses?.length ?? 0,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     if (snapshot.data?.verses?.length == 0) {
-                      return SizedBox();
+                      return const SizedBox();
                     }
                     detail.Verse ayat = snapshot.data!.verses![index];
                     return Column(
@@ -122,14 +125,14 @@ class DetailSurahView extends GetView<DetailSurahController> {
                                   child: Container(
                                     height: 35,
                                     width: 35,
-                                    decoration: BoxDecoration(
+                                    decoration: const BoxDecoration(
                                         image: DecorationImage(
                                             image: AssetImage(
                                                 'assets/images/octagon.png'))),
                                     child: Center(
                                         child: Text(
                                       "${index + 1}",
-                                      style: TextStyle(color: appPurpleDark),
+                                      style: const TextStyle(color: appPurpleDark),
                                     )),
                                   ),
                                 ),
@@ -209,32 +212,32 @@ class DetailSurahView extends GetView<DetailSurahController> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Text(
                           '${ayat.text!.arab}',
                           textAlign: TextAlign.end,
-                          style: TextStyle(fontSize: 25),
+                          style: const TextStyle(fontSize: 25),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Text(
                           '${ayat.text!.transliteration!.en}',
                           textAlign: TextAlign.end,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 16, fontStyle: FontStyle.italic),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
                         Text(
                           '${ayat.translation?.id}',
                           textAlign: TextAlign.justify,
-                          style: TextStyle(fontSize: 16),
+                          style: const TextStyle(fontSize: 16),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 50,
                         )
                       ],

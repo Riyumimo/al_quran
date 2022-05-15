@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations, avoid_unnecessary_containers
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -60,7 +60,7 @@ class DetailJuzView extends GetView<DetailJuzController> {
                                       horizontal: 20),
                                   child: Container(
                                     child: Text(
-                                        '${surahDetail.tafsir!.id ?? 'Tidak Ada Tafsir'}',
+                                        surahDetail.tafsir!.id ?? 'Tidak Ada Tafsir',
                                         textAlign: TextAlign.justify),
                                   ),
                                 ));
